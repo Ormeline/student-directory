@@ -38,10 +38,13 @@ students = [
     puts "The students of Villains Academy"
     puts "-------------"
   end 
- 
-  def print(students)
+
+ #use if statement to check if student's name starts with a particular letter
+  def print_students_by_letter(students, letter)
     students.each_with_index do |student, index|
-    puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)"
+        if student[:name].start_with?(letter)
+        puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)"
+        end
   end 
 end 
 
@@ -51,6 +54,6 @@ end
 #nothing will happen until you call the methods
 students = input_students
 print_header
-print(students)
+print_students_by_letter(students, "A")
 print_footer(students)
 
