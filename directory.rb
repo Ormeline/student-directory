@@ -23,7 +23,7 @@ end
 def print_students(students)
   x = 0
   while x < students.length
-    puts "#{x+1}. #{students[x][:name]} (#{students[x][:cohort]} cohort). Nationality: #{students[x][:nationality]}. Age: #{students[x][:age]}. Height: #{students[x][:height_cm]}"
+    puts "#{x+1}. #{students[x][:name].center(25)} (#{students[x][:cohort]} cohort)  Nationality: #{students[x][:nationality].center(12)} Age: #{students[x][:age].to_s.center(4)} Height: #{students[x][:height_cm].to_s.center(4)}"
     x += 1
   end 
 end 
