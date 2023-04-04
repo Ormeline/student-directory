@@ -15,8 +15,8 @@ students = [
 
 # define a method to print the header of student list
 def print_header
-  puts "The students of Villains Academy"
-  puts "-------------"
+  puts "The students of Villains Academy".center(50)
+  puts "-------------".center(50)
 end 
 
 # define a method to print the list of students' names and use the while loop
@@ -30,7 +30,7 @@ end
 
 # define a method to print the footer of students' name list
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students"
+  puts "Overall, we have #{names.count} great students".center(50)
 end 
 
 # call the methods to print the list of students' names
