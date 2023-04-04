@@ -1,3 +1,4 @@
+# initialise a list of students' names
 students = [
     {name: "Dr. Hannibal Lecter", cohort: :november},
     {name: "Darth Vader", cohort: :november},
@@ -12,28 +13,28 @@ students = [
     {name: "Norman Bates", cohort: :november}
   ]
 
-  # and then print them
+  # define a method to print the header of student list
   def print_header
     puts "The students of Villains Academy"
     puts "-------------"
   end 
 
- #use if statement to print students' names with shorter than 12 letters.
-  def print_students_name_shorter_than_12(students)
-    puts "The students with less than 12 characters in their name are:"
-    students.each_with_index do |student, index|
-        if student[:name].length < 12
-        puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)"
-        end
+ # define a method to print the list of students' names and use the while loop
+  def print_students(students)
+    x = 0
+    while x < students.length
+        puts "#{x+1}. #{students[x][:name]} (#{students[x][:cohort]} cohort)"
+        x += 1
   end 
 end 
 
+# define a method to print the footer of students' name list
 def print_footer(names)
 puts "Overall, we have #{names.count} great students"
 end 
 
-# call the methods
+# call the methods to print the list of students' names
 print_header
-print_students_name_shorter_than_12(students)
 print_footer(students)
+print_students(students)
 
