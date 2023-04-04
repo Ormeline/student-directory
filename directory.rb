@@ -1,23 +1,3 @@
-def input_students
-    puts "Please enter the name of the students"
-    puts "To finish, just hit return twice"
-    # create an empty array
-    students = []
-    # get first name
-    name = gets.chomp
-    # while the name is not empty, repeat this code
-    while !name.empty? do 
-        # add the student hash to the array
-        students << {name: name, cohort: :november}
-        puts "Now we have #{students.count} students"
-        # get another name from the user
-        name = gets.chomp 
-    end 
-    #return the array of students
-    students
-end 
-
-=begin
 students = [
     {name: "Dr. Hannibal Lecter", cohort: :november},
     {name: "Darth Vader", cohort: :november},
@@ -31,7 +11,6 @@ students = [
     {name: "Joffrey Baratheon", cohort: :november},
     {name: "Norman Bates", cohort: :november}
   ]
-=end
 
   # and then print them
   def print_header
@@ -39,10 +18,11 @@ students = [
     puts "-------------"
   end 
 
- #use if statement to check if student's name starts with a particular letter
-  def print_students_by_letter(students, letter)
+ #use if statement to print students' names with shorter than 12 letters.
+  def print_students_name_shorter_than_12(students)
+    puts "The students with less than 12 characters in their name are:"
     students.each_with_index do |student, index|
-        if student[:name].start_with?(letter)
+        if student[:name].length < 12
         puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)"
         end
   end 
@@ -51,9 +31,9 @@ end
 def print_footer(names)
 puts "Overall, we have #{names.count} great students"
 end 
-#nothing will happen until you call the methods
-students = input_students
+
+# call the methods
 print_header
-print_students_by_letter(students, "A")
+print_students_name_shorter_than_12(students)
 print_footer(students)
 
