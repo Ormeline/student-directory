@@ -32,7 +32,18 @@ loop do
   else
     students_grouped_by_cohort[cohort] << student
   end
-end
+end 
+
+  # get the total number of students
+  total_students = students_grouped_by_cohort.values.flatten.length
+
+  # print a message indicating the number of students
+  if total_students == 1
+    puts "Now we have 1 student."
+  else
+    puts "Now we have #{total_students} students."
+  end
+
 
 # get a list of all existing cohorts
 cohorts = students_grouped_by_cohort.keys
