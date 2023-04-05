@@ -1,14 +1,10 @@
-# create an empty hash to store the students grouped by cohort
-students_grouped_by_cohort = {}
-
-# use a loop until the user enters 'done'
-loop do
+def input_students(students_grouped_by_cohort)
   # prompt user to enter a name
   print "Please enter the name of a student (or enter 'done' if you're finished): "
   name = gets.strip
 
   # break loop if user enters done
-  break if name.downcase == "done"
+  return if name.downcase == "done"
 
   # prompt user to enter cohort and convert user's input into a symbol
   print "Please enter the cohort of the student: "
@@ -32,45 +28,72 @@ loop do
   else
     students_grouped_by_cohort[cohort] << student
   end
-end 
-
-  # get the total number of students
-  total_students = students_grouped_by_cohort.values.flatten.length
 
   # print a message indicating the number of students
+  total_students = students_grouped_by_cohort.values.flatten.length
   if total_students == 1
     puts "Now we have 1 student."
   else
     puts "Now we have #{total_students} students."
   end
-
-
-# get a list of all existing cohorts
-cohorts = students_grouped_by_cohort.keys
-
-# prompt the user to select a cohort and display the names of the students in that cohort
-# iterate over the list of cohorts and ask user to select a cohort
-puts "Please enter a cohort you would like to see (#{cohorts.join(", ")}) or enter 'exit' to quit:"
-cohort_to_display = gets.strip.downcase.to_sym
-
-# loop until user enters 'exit'
-until cohort_to_display == :exit
-  # check if the cohort entered exists and print the names of the students in that cohort
-  if students_grouped_by_cohort.key?(cohort_to_display)
-    puts "#{cohort_to_display.capitalize} Cohort:".center(50)
-    students_grouped_by_cohort[cohort_to_display].each_with_index do |student, index|
-      puts "#{index + 1}. #{student[:name]}"
-    end
-  else
-    puts "You have entered an invalid cohort. Please try again."
-  end
-
-  # ask user to enter another cohort or enter 'exit' to quit
-  puts "Please enter another cohort you would like to view (#{cohorts.join(", ")}) or enter 'exit' to quit:"
-  cohort_to_display = gets.strip.downcase.to_sym
 end
 
-puts "Goodbye!"
+def print_header()
+  puts "The students of my cohort at Makers Academy"
+  puts "-------------"
+end
+
+def print_students(students_grouped_by_cohort)
+  students_grouped_by_cohort.each do |cohort, students|
+    puts "#{cohort.capitalize} Cohort:".center(20)
+    students.each_with_index do |student, index|
+      puts "#{index + 1}. #{student[:name]}"
+    end
+    puts ""
+  end
+end
+
+def print_footer(students_grouped_by_cohort)
+  # get the total number of students
+  total_students = students_grouped_by_cohort.values.flatten.length
+
+  # print a message indicating the number of students
+  if total_students == 1
+    puts "Overall, we have 1 great student."
+  else
+    puts "Overall, we have #{total_students} great students."
+  end
+end
+
+def interactive_menu
+  students_grouped_by_cohort = {}
+  loop do
+    # print menu options
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit"
+
+    # get user input
+    selection = gets.chomp
+
+    # perform action based on user input
+    case selection
+    when "1"
+      input_students(students_grouped_by_cohort)
+    when "2"
+      print_header
+      print_students(students_grouped_by_cohort)
+      print_footer(students_grouped_by_cohort)
+    when "9"
+      exit
+    else
+      puts "I don't know what you mean. Please try again."
+    end
+  end
+end
+
+interactive_menu
+
 
 
 
