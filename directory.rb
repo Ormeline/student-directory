@@ -1,40 +1,44 @@
-# initialise a list of students' names
-students = [
-  {name: "Dr. Hannibal Lecter", cohort: :November, nationality: "British", age: 21, height_cm: 160},
-  {name: "Darth Vader", cohort: :November, nationality: "German", age: 25, height_cm: 175}, 
-  {name: "Nurse Ratched", cohort: :November, nationality: "South African", age: 23, height_cm: 159},
-  {name: "Michael Corleone", cohort: :November, nationality: "Jamaican", age: 24, height_cm: 149},
-  {name: "Alex DeLarge", cohort: :November, nationality: "French", age: 25, height_cm: 161},
-  {name: "The Wicked Witch of the West", cohort: :November, nationality: "British", age: 23, height_cm: 151},
-  {name: "Terminator", cohort: :November, nationality: "French", age: 25, height_cm: 148},
-  {name: "Freddy Krueger", cohort: :November, nationality: "Congolese", age: 24, height_cm: 164},
-  {name: "The Joker", cohort: :November, nationality: "Nigerian", age: 23, height_cm: 174},
-  {name: "Joffrey Baratheon", cohort: :November, nationality: "British", age: 26, height_cm: 168},
-  {name: "Norman Bates", cohort: :November, nationality: "British", age: 24, height_cm: 178}
-]
+# create an empty list of students and name
+students = []
+name = ""
 
-# define a method to print the header of student list
-def print_header
-  puts "The students of Villains Academy".center(50)
-  puts "-------------".center(50)
-end 
+# use while loop until user enters 'done'
+while name.downcase != "done"
+  # prompt user to enter name 
+  puts "Please enter the name of a student (or enter 'done' if you're finished):"
+  name = gets.chomp
 
-# define a method to print the list of students' names and use the while loop
-def print_students(students)
-  x = 0
-  while x < students.length
-    puts "#{x+1}. #{students[x][:name].center(25)} (#{students[x][:cohort]} cohort)  Nationality: #{students[x][:nationality].center(12)} Age: #{students[x][:age].to_s.center(4)} Height: #{students[x][:height_cm].to_s.center(4)}"
-    x += 1
-  end 
-end 
+  # break loop if user enters done
+  if name.downcase == "done"
+    break
+  end
 
-# define a method to print the footer of students' name list
-def print_footer(names)
-  puts "Overall, we have #{names.count} great students".center(50)
-end 
+  # prompt user to enter cohort and convert user's input into a symbol
+  puts "Please enter the cohort of the student:"
+  cohort = gets.chomp.to_sym
 
-# call the methods to print the list of students' names
-print_header
-print_footer(students)
-print_students(students)
+  # define the valid cohorts in a list of symbols 
+  valid_cohorts = [:january, :february, :march, :april, :may, :june, :july, :august, :september, :october, :november, :december]
+
+  #  program will loop until user enters valid cohort else it will print an error message
+  until valid_cohorts.include?(cohort)
+    puts "Invalid cohort entered. Please enter a valid cohort:"
+    cohort = gets.chomp.to_sym
+  end
+
+  # create a hash for the students and add it to the list
+  student = {
+    name: name.empty? ? "Unknown" : name,
+    cohort: cohort.empty? ? :november : cohort.to_sym
+  }
+
+  students << student
+end
+
+# go through the student list and print a student's name and cohort
+students.each_with_index do |student, index|
+  puts "#{index + 1}. #{student[:name]} (#{student[:cohort].capitalize} cohort)"
+end
+
+
 
