@@ -1,5 +1,13 @@
+# initialise an empty list to store the student's data
 @students = []
 
+# defines a method to set and display feedback messages
+def set_feedback_message(message)
+  @feedback_message = "You have successfully #{message}"
+  puts @feedback_message
+end
+
+# defines a method to print the interactive menu
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
@@ -8,6 +16,7 @@ def print_menu
   puts "9. Exit"
 end
 
+# defines a method for the interactive menu
 def interactive_menu
   loop do
     print_menu
@@ -15,23 +24,31 @@ def interactive_menu
   end
 end
 
+# defines a method to process following input from user
 def process(selection)
   case selection
   when "1"
     input_students
+    set_feedback_message("entered the students")
   when "2"
     show_students
+    set_feedback_message("displayed the students.")
   when "3"
     save_students
+    set_feedback_message("saved the list to students.")
   when "4"
     load_students
+    set_feedback_message("loaded all the students from students.csv file")
   when "9"
+    @feedback_message = "You are exiting the program..."
+    puts @feedback_message
     exit
   else
     puts "I don't know what you mean, try again"
   end
 end
 
+# defines a method to input student's data
 def input_students
   loop do
     # prompt user to enter a name
@@ -54,8 +71,9 @@ def input_students
     puts "Student added: #{name} (#{cohort} cohort)"
   end
 end
-
-def print_students_count
+ 
+# defines a method to print the summary of students in either singular or plural  
+def print_summary
   total_students = @students.length
    # print a message indicating the number of students in either singular or plural
    if total_students == 1
@@ -65,10 +83,13 @@ def print_students_count
   end
 end
 
-def print_header_footer
+# defines a method to print data from cohort
+def print_students_by_cohort
   if @students.any?
+    # gets a list of particular cohorts
     cohorts = @students.map {|student| student[:cohort]}
-    puts "The students of my cohort"
+    # prints data from each cohort
+    puts "The students of the cohort"
     puts "-------------"
     cohorts.uniq.each do |cohort|
       puts "#{cohort} cohort:"
@@ -83,11 +104,13 @@ def print_header_footer
   end
 end 
 
+# defines method to show the student data
 def show_students
-  print_header_footer
-  print_students_count
+  print_students_by_cohort
+  print_summary
 end  
 
+# defines method to save student data to a csv file
 def save_students
   file = File.open("students.csv", "w")
   @students.each do |student|
@@ -98,6 +121,7 @@ def save_students
   file.close
 end
 
+# defines method to load student data from cvs file
 def load_students(filename = "students.csv")
   @students = []
   file = File.open(filename, "r")
@@ -108,6 +132,7 @@ def load_students(filename = "students.csv")
   file.close
 end
 
+# defines method to try to load student data from file and csv file is in default
 def try_load_students
   filename = ARGV.first || "students.csv" # first argument from the command line or students.csv
   puts "Filename: #{filename}" # check filename
