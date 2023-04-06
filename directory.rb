@@ -1,16 +1,17 @@
+@students = []
+
 def input_students
   # prompt user to enter a name
   puts "Please enter the name of a student (or enter 'done' if you're finished): "
-  name = gets.strip
+  name = STDIN.gets.chomp
 
   # return loop if user enters done
   if name.downcase == "done"
     return
   end
-
   # prompt user to enter cohort and convert user's input into a symbol
   puts "Please enter the cohort of the student: "
-  cohort = gets.strip.to_sym
+  cohort = STDIN.gets.chomp.to_sym
 
   # create a new student hash and add it to the appropriate cohort
   @students ||= []
@@ -64,13 +65,25 @@ def save_students
   file.close
 end
 
-def load_students
-  file = File.open("students.csv", "r")
+def load_students(filename)
+  file = File.open(filename, "r")
   file.readlines.each do |line|
-  name, cohort = line.chomp.split(',')
+    name, cohort = line.chomp.split(',')
     @students << {name: name, cohort: cohort.to_sym}
   end
   file.close
+end
+
+def try_load_students
+  filename = ARGV.first # first argument from the command line
+  return if filename.nil? # get out of the method if it isn't given
+  if File.exist?(filename) # if it exists
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else # if it doesn't exist
+    puts "Sorry, #{filename} doesn't exist."
+    exit # quit the program
+  end
 end
 
 def process(selection)
@@ -99,11 +112,11 @@ def print_menu
 end
 
 def interactive_menu
-  @students = []
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
+try_load_students
 interactive_menu
