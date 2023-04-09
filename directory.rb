@@ -1,19 +1,19 @@
 # initialise an empty list to store the student's data
 @students = []
 
-# defines a method to set and display feedback messages
-def set_feedback_message(message)
-  @feedback_message = "You have successfully #{message}"
-  puts @feedback_message
-end
-
 # defines a method to print the interactive menu
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the students from students.csv"
+  puts "3. Save the list to selected file"
+  puts "4. Load the students from selected file"
   puts "9. Exit"
+end
+
+# defines a method to set and display feedback messages
+def set_feedback_message(message)
+  @feedback_message = "You have successfully #{message}"
+  puts @feedback_message
 end
 
 # defines a method for the interactive menu
@@ -24,7 +24,7 @@ def interactive_menu
   end
 end
 
-# defines a method to process following input from user
+# defines a method to process following input from user and display feedback message
 def process(selection)
   case selection
   when "1"
@@ -35,10 +35,10 @@ def process(selection)
     set_feedback_message("displayed the students.")
   when "3"
     save_students
-    set_feedback_message("saved the list to students.")
+    set_feedback_message("saved the list of students.")
   when "4"
     load_students
-    set_feedback_message("loaded all the students from students.csv file")
+    set_feedback_message("loaded all the students from selected file")
   when "9"
     @feedback_message = "You are exiting the program..."
     puts @feedback_message
@@ -110,9 +110,11 @@ def show_students
   print_summary
 end  
 
-# defines method to save student data to a csv file
+# defines method to save student data to a file
 def save_students
-  file = File.open("students.csv", "w")
+  puts "Please enter the filename to save to: "
+  filename = STDIN.gets.chomp
+  file = File.open(filename, "w")
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
     csv_line = student_data.join(",")
@@ -121,29 +123,47 @@ def save_students
   file.close
 end
 
-# defines method to load student data from cvs file
+# defines method to load student data from the file the user enters
+# defines method to load student data from a file
 def load_students(filename = "students.csv")
-  @students = []
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
-    @students << {name: name, cohort: cohort.to_sym}
+  puts "Please enter the filename to load from: "
+  filename = gets.chomp
+  if File.exist?(filename)
+    @students = []
+    file = File.open(filename, "r")
+    file.readlines.each do |line|
+      name, cohort = line.chomp.split(',')
+      @students << {name: name, cohort: cohort.to_sym}
+    end
+    file.close
+  else
+    puts "Sorry, #{filename} doesn't exist."
+    exit
+    end 
   end
-  file.close
 end
+
 
 # defines method to try to load student data from file and csv file is in default
 def try_load_students
-  filename = ARGV.first || "students.csv" # first argument from the command line or students.csv
-  puts "Filename: #{filename}" # check filename
-  if File.exist?(filename) # if it exists
+  filename = ARGV.first # first argument from the command line or students.csv# check filename
+  if filename && File.exist?(filename) # if it exists
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}"
   else # if it doesn't exist
-    puts "Sorry, #{filename} doesn't exist."
-    exit # quit the program
+    puts "Please enter the filename to load from: "
+    filename = gets.chomp
+    if File.exist?(filename)
+      load_students(filename)
+      #puts "Loaded #{@students_count} from #{filename}" 
+    else 
+      puts "Sorry, #{filename} doesn't exist."
+      exit # quit the program
+    end 
   end
 end
 
-try_load_students
+
 interactive_menu
+try_load_students
+
