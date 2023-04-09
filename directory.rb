@@ -114,35 +114,32 @@ end
 def save_students
   puts "Please enter the filename to save to: "
   filename = STDIN.gets.chomp
-  file = File.open(filename, "w")
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+  File.open(filename, "w") do |file|
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort]]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+    end
   end
-  file.close
 end
 
 # defines method to load student data from the file the user enters
-# defines method to load student data from a file
 def load_students(filename = "students.csv")
   puts "Please enter the filename to load from: "
   filename = gets.chomp
   if File.exist?(filename)
     @students = []
-    file = File.open(filename, "r")
-    file.readlines.each do |line|
-      name, cohort = line.chomp.split(',')
-      @students << {name: name, cohort: cohort.to_sym}
+    File.open(filename, "r") do |file|
+      file.readlines.each do |line|
+        name, cohort = line.chomp.split(',')
+        @students << {name: name, cohort: cohort.to_sym}
+      end
     end
-    file.close
   else
     puts "Sorry, #{filename} doesn't exist."
     exit
-    end 
   end
 end
-
 
 # defines method to try to load student data from file and csv file is in default
 def try_load_students
