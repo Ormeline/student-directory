@@ -1,3 +1,6 @@
+# loads the CSV library into Ruby program
+require 'csv'
+
 # initialise an empty list to store the student's data
 @students = []
 
@@ -114,11 +117,9 @@ end
 def save_students
   puts "Please enter the filename to save to: "
   filename = STDIN.gets.chomp
-  File.open(filename, "w") do |file|
+  CSV.open(filename, "w") do |csv|
     @students.each do |student|
-      student_data = [student[:name], student[:cohort]]
-      csv_line = student_data.join(",")
-      file.puts csv_line
+      CSV << [student[:name], student[:cohort]]
     end
   end
 end
@@ -129,11 +130,9 @@ def load_students(filename = "students.csv")
   filename = gets.chomp
   if File.exist?(filename)
     @students = []
-    File.open(filename, "r") do |file|
-      file.readlines.each do |line|
-        name, cohort = line.chomp.split(',')
+    CSV.foreach(filename) do |row|
+        name, cohort = row
         @students << {name: name, cohort: cohort.to_sym}
-      end
     end
   else
     puts "Sorry, #{filename} doesn't exist."
