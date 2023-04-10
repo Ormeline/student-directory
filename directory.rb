@@ -1,6 +1,11 @@
 # loads the CSV library into Ruby program
 require 'csv'
 
+# this program prints its own source code
+File.open(__FILE__, 'r') do |file|
+  puts file.read
+end
+
 # initialise an empty list to store the student's data
 @students = []
 
@@ -158,7 +163,6 @@ def try_load_students
     end 
   end
 end
-
 
 interactive_menu
 try_load_students
